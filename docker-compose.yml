@@ -1,0 +1,9 @@
+version: "3.9"
+services:
+  centos7:
+    image: centos:7.9.2009
+    command: /usr/sbin/init
+    volumes:
+      - type: bind
+        source: ./scripts
+        target: /tmp/webdna

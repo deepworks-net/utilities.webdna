@@ -1,0 +1,128 @@
+# WebDNA Configure Scripts Roadmap/Requirements for v1.0.0 (Beta)
+
+This is a living document and will be updated as it gets closer to v1.0.0 and enters beta
+
+- [ ] There is a script that can be run to download the files needed to install WebDNA based on version
+    - [ ] The script will check for required packages to download and unzip WebDNA and install them
+    - [ ] The script will uninstall the required packages at the end, but only if they were installed by the script
+    - [ ] There are flags that can be passed to the script that will determine what version is downloaded and extracted
+    - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
+- [ ] There is a script that can be run to verify if the system can support WebDNA (Compatibility Script)
+    - [ ] The script will output any problems it finds plus any remediation steps
+    - [ ] The script has a flag to determine compatibility for server or fcgi version
+    - [ ] The script has a flag to determine Apache or Nginx
+    - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
+- [ ] There is a script that can be run to properly configure the install of WebDNA
+    - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
+- [ ] There is a script that can be run to configure the installation of Apache + WebDNA
+    - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
+- [ ] There is a script that can be run to configure the installation of Nginx + WebDNA
+    - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
+- [ ] Support Linux OS
+    - [ ] Support container installs
+    - [ ] [Issue #19](https://github.com/deepworks-net/webdna-configure-scripts/issues/19) - Linux scripts determine the OS release they are running on and adjust accordingly
+    - Linux OS Supported Flavors:
+        - [ ] [Issue #7](https://github.com/deepworks-net/webdna-configure-scripts/issues/7) - Alpine 3.12 (FCGI)
+            - [ ] v8.6.5
+        - [ ] [Issue #8](https://github.com/deepworks-net/webdna-configure-scripts/issues/8) - Alpine 3.12 (Server)
+            - [ ] v8.6.5
+        - [ ] [Issue #1](https://github.com/deepworks-net/webdna-configure-scripts/issues/1) - CentOS 7 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #2](https://github.com/deepworks-net/webdna-configure-scripts/issues/2) - CentOS 7 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #3](https://github.com/deepworks-net/webdna-configure-scripts/issues/3) - CentOS 8 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #4](https://github.com/deepworks-net/webdna-configure-scripts/issues/4) - CentOS 8 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #5](https://github.com/deepworks-net/webdna-configure-scripts/issues/5) - RockyLinux 8.5 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #6](https://github.com/deepworks-net/webdna-configure-scripts/issues/6) - RockyLinux 8.5 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #9](https://github.com/deepworks-net/webdna-configure-scripts/issues/9) - Ubuntu 16.04 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #10](https://github.com/deepworks-net/webdna-configure-scripts/issues/10) - Ubuntu 16.04 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #11](https://github.com/deepworks-net/webdna-configure-scripts/issues/11) - Ubuntu 18.04 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #12](https://github.com/deepworks-net/webdna-configure-scripts/issues/12) - Ubuntu 18.04 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #13](https://github.com/deepworks-net/webdna-configure-scripts/issues/13) - Ubuntu 20.04 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #14](https://github.com/deepworks-net/webdna-configure-scripts/issues/14) - Ubuntu 20.04 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #15](https://github.com/deepworks-net/webdna-configure-scripts/issues/15) - Ubuntu 21.10 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #16](https://github.com/deepworks-net/webdna-configure-scripts/issues/16) - Ubuntu 21.10 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #17](https://github.com/deepworks-net/webdna-configure-scripts/issues/17) - Ubuntu 22.04 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [Issue #18](https://github.com/deepworks-net/webdna-configure-scripts/issues/18) - Ubuntu 22.04 (Server)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+- [ ] - Support RaspberryPi32
+    - [ ] FastCGI
+        - [ ] v8.6.5
+    - [ ] Server
+        - [ ] v8.6.5
+- [ ] - Support Windows OS
+    - [ ] FastCGI
+        - [ ] v8.6.5
+        - [ ] v8.6.4
+        - [ ] v8.6.3
+        - [ ] v8.6.1
+- [ ] - Support MAC OS
+    - [ ] FastCGI
+        - [ ] v8.6.5
+        - [ ] v8.6.4
+        - [ ] v8.6.1
+    - [ ] Server
+        - [ ] v8.6.5
+        - [ ] v8.6.4
+        - [ ] v8.6.1

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Get Linux OS Information
+. /etc/os-release
+

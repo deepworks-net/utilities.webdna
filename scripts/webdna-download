@@ -1,0 +1,106 @@
+#!/bin/bash
+
+# Get Linux OS Information
+. /etc/os-release
+
+# Defaults
+INSTALL_LOG="webdna_install.log"
+WEBDNA_VERSION="8.6.5"
+WEBDNA_FOLDER="WebDNA-folder-8.6"
+LINUX_WEBDNA="WebDNA-Linux-FastCGI-$WEBDNA_VERSION"
+ALPINE_WEBDNA="WebDNA-Alpine-FastCGI-$WEBDNA_VERSION"
+
+# Logging Function
+LOGIT() {
+    echo "$1" | tee -a "$INSTALL_LOG"
+}
+
+# Checks for a Package and installs it if it is not already installed
+PACKAGE_CHECK() {
+    if eval "$CPS $1"; then
+        LOGIT "Required package '$1' already installed."
+    else
+        LOGIT "Required package '$1' not found, installing..."
+        eval "$IPS $1"
+        if eval "$CPS $1"; then
+            LOGIT "Required package '$1' installed."
+        else
+            LOGIT "ERROR: Could not install '$1'. Exiting Install"
+            exit 2;
+        fi
+    fi
+}
+
+# Unsupported OS Error Function
+OS_UNSUPPORTED(){
+    LOGIT "ERROR: Linux OS $1 Not Currently Supported. Exiting Install"
+    exit 1;
+}
+
+# Check for OS
+DOWNLOAD_VERSION=$LINUX_WEBDNA
+if [ "$ID" = "centos" ] && ([ "$VERSION_ID" = "7" ] || [ "$VERSION_ID" = "8" ]); then
+    CPS="rpm -q"
+    IPS="yum -y install"
+    UPS="yum -y remove"
+elif [ "$ID" = "alpine" ]; then
+    IPS="apk add"
+    UPS="apk del"
+    DOWNLOAD_VERSION=$ALPINE_WEBDNA
+else
+    OS_UNSUPPORTED "$ID $VERSION_ID"
+fi
+
+# Begin Install
+LOGIT "Installing the latest (v$WEBDNA_VERSION) version of WebDNA!"
+
+# Print Version Information
+LOGIT "Linux OS Version is $ID $VERSION_ID"
+
+# Check for installed packages
+LOGIT "Checking for required packages..."
+PACKAGE_CHECK "wget"
+PACKAGE_CHECK "unzip"
+
+# Download WebDNA Folder
+LOGIT "Downloading https://webdna.us/download/$WEBDNA_FOLDER.zip"
+wget "https://webdna.us/download/$WEBDNA_FOLDER.zip"
+
+# Check against hash
+LOGIT "Verifying $WEBDNA_FOLDER.zip"
+sha256sum "$WEBDNA_FOLDER.zip"
+if ! sha256sum -c "hashes/$WEBDNA_FOLDER.zip.sha256"; then LOGIT "sha256 Checksum failed for $WEBDNA_FOLDER.zip" >&2; exit 3; fi
+
+# Extract Archive
+LOGIT "Extracting $WEBDNA_FOLDER.zip"
+unzip -d . "$WEBDNA_FOLDER.zip"
+
+# Remove Archive
+LOGIT "Removing $WEBDNA_FOLDER.zip"
+rm -f "$WEBDNA_FOLDER.zip"
+
+# Downloaded and verified WebDNA Folder
+LOGIT "Downloaded, verified, and extracted $WEBDNA_FOLDER"
+
+# Download WebDNA FCGI
+LOGIT "Downloading https://webdna.us/download/$DOWNLOAD_VERSION.zip"
+wget "https://webdna.us/download/$DOWNLOAD_VERSION.zip"
+
+# Check against hash
+LOGIT "Verifying $DOWNLOAD_VERSION.zip"
+sha256sum "$DOWNLOAD_VERSION.zip"
+if ! sha256sum -c "hashes/$DOWNLOAD_VERSION.zip.sha256"; then LOGIT "sha256 Checksum failed for $DOWNLOAD_VERSION.zip" >&2; exit 3; fi
+
+# Extract Archive
+LOGIT "Extracting $DOWNLOAD_VERSION.zip"
+unzip -d . "$DOWNLOAD_VERSION.zip"
+
+# Remove Archive
+LOGIT "Removing $DOWNLOAD_VERSION.zip"
+rm -f "$DOWNLOAD_VERSION.zip"
+
+# Downloaded and verified WebDNA Folder
+LOGIT "Downloaded, verified, and extracted $DOWNLOAD_VERSION"
+
+# Check for version and put together the 'correct' WebDNA Folder Structure
+
