@@ -1,41 +1,21 @@
 #!/bin/bash
 
 # Get Linux OS Information
-. /etc/os-release
+. ./shared
+
+LOGIT "Running Script 'webdna-download'"
+
+# Download, verify and unzip a file
+DVU(){
+
+}
 
 # Defaults
-INSTALL_LOG="webdna_install.log"
-WEBDNA_VERSION="8.6.5"
-WEBDNA_FOLDER="WebDNA-folder-8.6"
-LINUX_WEBDNA="WebDNA-Linux-FastCGI-$WEBDNA_VERSION"
-ALPINE_WEBDNA="WebDNA-Alpine-FastCGI-$WEBDNA_VERSION"
-
-# Logging Function
-LOGIT() {
-    echo "$1" | tee -a "$INSTALL_LOG"
-}
-
-# Checks for a Package and installs it if it is not already installed
-PACKAGE_CHECK() {
-    if eval "$CPS $1"; then
-        LOGIT "Required package '$1' already installed."
-    else
-        LOGIT "Required package '$1' not found, installing..."
-        eval "$IPS $1"
-        if eval "$CPS $1"; then
-            LOGIT "Required package '$1' installed."
-        else
-            LOGIT "ERROR: Could not install '$1'. Exiting Install"
-            exit 2;
-        fi
-    fi
-}
-
-# Unsupported OS Error Function
-OS_UNSUPPORTED(){
-    LOGIT "ERROR: Linux OS $1 Not Currently Supported. Exiting Install"
-    exit 1;
-}
+LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
+WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
+WEBDNA_FOLDER="${WEBDNA_FOLDER:-WebDNA-folder-8.6}"
+LINUX_WEBDNA="${LINUX_WEBDNA:-WebDNA-Linux-FastCGI-$WEBDNA_VERSION}"
+ALPINE_WEBDNA="${ALPINE_WEBDNA:-WebDNA-Alpine-FastCGI-$WEBDNA_VERSION}"
 
 # Check for OS
 DOWNLOAD_VERSION=$LINUX_WEBDNA
@@ -51,11 +31,8 @@ else
     OS_UNSUPPORTED "$ID $VERSION_ID"
 fi
 
-# Begin Install
-LOGIT "Installing the latest (v$WEBDNA_VERSION) version of WebDNA!"
-
-# Print Version Information
-LOGIT "Linux OS Version is $ID $VERSION_ID"
+# Begin Downloads
+LOGIT "Downloading version $WEBDNA_VERSION of WebDNA!"
 
 # Check for installed packages
 LOGIT "Checking for required packages..."

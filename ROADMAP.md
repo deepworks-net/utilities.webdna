@@ -2,6 +2,8 @@
 
 This is a living document and will be updated as it gets closer to v1.0.0 and enters beta
 
+- [ ] There will be a 'shared' script that will contain shared defaults, function definitions and general functionality
+    - [ ] 
 - [ ] There is a script that can be run to download the files needed to install WebDNA based on version
     - [ ] The script will check for required packages to download and unzip WebDNA and install them
     - [ ] The script will uninstall the required packages at the end, but only if they were installed by the script
@@ -20,88 +22,89 @@ This is a living document and will be updated as it gets closer to v1.0.0 and en
     - [ ] The script will log information to a .txt file, tab delimited, which can be read by WebDNA
 - [ ] Support Linux OS
     - [ ] Support container installs
-    - [ ] [Issue #19](https://github.com/deepworks-net/webdna-configure-scripts/issues/19) - Linux scripts determine the OS release they are running on and adjust accordingly
+    - [ ] [#19](https://github.com/deepworks-net/webdna-configure-scripts/issues/19) - Linux scripts determine the OS release they are running on and adjust accordingly
     - Linux OS Supported Flavors:
-        - [ ] [Issue #7](https://github.com/deepworks-net/webdna-configure-scripts/issues/7) - Alpine 3.12 (FCGI)
+        - [ ] [#7](https://github.com/deepworks-net/webdna-configure-scripts/issues/7) - Alpine 3.12 (FCGI)
             - [ ] v8.6.5
-        - [ ] [Issue #8](https://github.com/deepworks-net/webdna-configure-scripts/issues/8) - Alpine 3.12 (Server)
+        - [ ] [#8](https://github.com/deepworks-net/webdna-configure-scripts/issues/8) - Alpine 3.12 (Server)
             - [ ] v8.6.5
-        - [ ] [Issue #1](https://github.com/deepworks-net/webdna-configure-scripts/issues/1) - CentOS 7 (FCGI)
-            - [ ] v8.6.5
-            - [ ] v8.6.4
-            - [ ] v8.6.3
-            - [ ] v8.6.1
-        - [ ] [Issue #2](https://github.com/deepworks-net/webdna-configure-scripts/issues/2) - CentOS 7 (Server)
-            - [ ] v8.6.5
-            - [ ] v8.6.4
-            - [ ] v8.6.3
-            - [ ] v8.6.1
-        - [ ] [Issue #3](https://github.com/deepworks-net/webdna-configure-scripts/issues/3) - CentOS 8 (FCGI)
-            - [ ] v8.6.5
-            - [ ] v8.6.4
-            - [ ] v8.6.3
-            - [ ] v8.6.1
-        - [ ] [Issue #4](https://github.com/deepworks-net/webdna-configure-scripts/issues/4) - CentOS 8 (Server)
+        - [ ] [#20](https://github.com/deepworks-net/webdna-configure-scripts/issues/20) - Support CentOS 7
+            - [ ] [#1](https://github.com/deepworks-net/webdna-configure-scripts/issues/1) - FastCGI
+                - [ ] [#21](https://github.com/deepworks-net/webdna-configure-scripts/issues/1) - v8.6.5
+                - [ ] v8.6.4
+                - [ ] v8.6.3
+                - [ ] v8.6.1
+            - [ ] [#2](https://github.com/deepworks-net/webdna-configure-scripts/issues/2) - Server
+                - [ ] v8.6.5
+                - [ ] v8.6.4
+                - [ ] v8.6.3
+                - [ ] v8.6.1
+        - [ ] [#3](https://github.com/deepworks-net/webdna-configure-scripts/issues/3) - CentOS 8 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #5](https://github.com/deepworks-net/webdna-configure-scripts/issues/5) - RockyLinux 8.5 (FCGI)
+        - [ ] [#4](https://github.com/deepworks-net/webdna-configure-scripts/issues/4) - CentOS 8 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #6](https://github.com/deepworks-net/webdna-configure-scripts/issues/6) - RockyLinux 8.5 (Server)
+        - [ ] [#5](https://github.com/deepworks-net/webdna-configure-scripts/issues/5) - RockyLinux 8.5 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #9](https://github.com/deepworks-net/webdna-configure-scripts/issues/9) - Ubuntu 16.04 (FCGI)
+        - [ ] [#6](https://github.com/deepworks-net/webdna-configure-scripts/issues/6) - RockyLinux 8.5 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #10](https://github.com/deepworks-net/webdna-configure-scripts/issues/10) - Ubuntu 16.04 (Server)
+        - [ ] [#9](https://github.com/deepworks-net/webdna-configure-scripts/issues/9) - Ubuntu 16.04 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #11](https://github.com/deepworks-net/webdna-configure-scripts/issues/11) - Ubuntu 18.04 (FCGI)
+        - [ ] [#10](https://github.com/deepworks-net/webdna-configure-scripts/issues/10) - Ubuntu 16.04 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #12](https://github.com/deepworks-net/webdna-configure-scripts/issues/12) - Ubuntu 18.04 (Server)
+        - [ ] [#11](https://github.com/deepworks-net/webdna-configure-scripts/issues/11) - Ubuntu 18.04 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #13](https://github.com/deepworks-net/webdna-configure-scripts/issues/13) - Ubuntu 20.04 (FCGI)
+        - [ ] [#12](https://github.com/deepworks-net/webdna-configure-scripts/issues/12) - Ubuntu 18.04 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #14](https://github.com/deepworks-net/webdna-configure-scripts/issues/14) - Ubuntu 20.04 (Server)
+        - [ ] [#13](https://github.com/deepworks-net/webdna-configure-scripts/issues/13) - Ubuntu 20.04 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #15](https://github.com/deepworks-net/webdna-configure-scripts/issues/15) - Ubuntu 21.10 (FCGI)
+        - [ ] [#14](https://github.com/deepworks-net/webdna-configure-scripts/issues/14) - Ubuntu 20.04 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #16](https://github.com/deepworks-net/webdna-configure-scripts/issues/16) - Ubuntu 21.10 (Server)
+        - [ ] [#15](https://github.com/deepworks-net/webdna-configure-scripts/issues/15) - Ubuntu 21.10 (FCGI)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #17](https://github.com/deepworks-net/webdna-configure-scripts/issues/17) - Ubuntu 22.04 (FCGI)
+        - [ ] [#16](https://github.com/deepworks-net/webdna-configure-scripts/issues/16) - Ubuntu 21.10 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3
             - [ ] v8.6.1
-        - [ ] [Issue #18](https://github.com/deepworks-net/webdna-configure-scripts/issues/18) - Ubuntu 22.04 (Server)
+        - [ ] [#17](https://github.com/deepworks-net/webdna-configure-scripts/issues/17) - Ubuntu 22.04 (FCGI)
+            - [ ] v8.6.5
+            - [ ] v8.6.4
+            - [ ] v8.6.3
+            - [ ] v8.6.1
+        - [ ] [#18](https://github.com/deepworks-net/webdna-configure-scripts/issues/18) - Ubuntu 22.04 (Server)
             - [ ] v8.6.5
             - [ ] v8.6.4
             - [ ] v8.6.3

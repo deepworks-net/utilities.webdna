@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Defaults
+LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
+
+# Logging Function
+LOGIT() {
+    local CURRENT_DATE=`date`
+    echo "$CURRENT_DATE	$0 $1" | tee -a "$LOGIT_LOG"
+}
+
+# Checks for supported OS
+OS_CHECK(){
+    
+}
+
+# Unsupported OS Error Function
+OS_UNSUPPORTED(){
+    LOGIT "ERROR: Linux OS $1 Not Currently Supported. Exiting Install"
+    exit 1;
+}
+
+# Checks for a Package and installs it if it is not already installed
+PACKAGE_CHECK() {
+    if eval "$CPS $1"; then
+        LOGIT "Required package '$1' already installed."
+    else
+        LOGIT "Required package '$1' not found, installing..."
+        eval "$IPS $1"
+        if eval "$CPS $1"; then
+            LOGIT "Required package '$1' installed."
+        else
+            LOGIT "ERROR: Could not install '$1'. Exiting Install"
+            exit 2;
+        fi
+    fi
+}
+
+# Get Linux OS Information
+. /etc/os-release
+
+# Print Version Information
+LOGIT "Running on Linux OS $ID $VERSION_ID"

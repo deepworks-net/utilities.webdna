@@ -7,3 +7,10 @@ services:
       - type: bind
         source: ./scripts
         target: /tmp/webdna
+  centos8:
+    image: centos:8.4.2105
+    command: /usr/sbin/init
+    volumes:
+      - type: bind
+        source: ./scripts
+        target: /tmp/webdna
