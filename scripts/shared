@@ -1,7 +1,15 @@
 #!/bin/bash
 
+# 
+# 
+# 
+
 # Defaults
 LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
+
+
+
+
 
 # Logging Function
 LOGIT() {

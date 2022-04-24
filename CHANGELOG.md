@@ -20,6 +20,7 @@
     - Windows FCGI 8.6.3
     - Windows FCGI 8.6.1
     - WebDNA 8.6 Folder
+- Updated License File
 
 ## (04/14/2022) v0.0.2-alpha
 - Created Repository

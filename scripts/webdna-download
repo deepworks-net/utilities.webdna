@@ -10,8 +10,6 @@ DVU(){
 
 }
 
-# Defaults
-LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
 WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
 WEBDNA_FOLDER="${WEBDNA_FOLDER:-WebDNA-folder-8.6}"
 LINUX_WEBDNA="${LINUX_WEBDNA:-WebDNA-Linux-FastCGI-$WEBDNA_VERSION}"
