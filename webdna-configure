@@ -1,0 +1,124 @@
+#!/bin/sh
+
+## Defaults
+SCRIPT_VERSION="v0.1.0-alpha"
+LOGIT_LOG="${LOGIT_LOG:-webdna_log.txt}"
+WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
+ASSUMEYES=--assumeyes
+OS_DISTRIBUTION=
+OS_DISTRIBUTION_FAMILY=
+OS_VERSION=
+OS_VERSION_NAME=
+OS_PACKAGE_MGR=
+OS_PACKAGE_MGR_INSTALL=
+OS_PACKAGE_MGR_REMOVE=
+OS_PACKAGE_MGR_UPDATE=
+OS_PACKAGE_MGR_CLEAN=
+HASH_FOLDER="hashes"
+
+## Error Codes
+ERR_INTERNAL=99
+ERR_OS_NODETECT=100
+ERR_OS_UNSUPPORTED=101
+
+## Predefined Values
+export DEBIAN_FRONTEND=noninteractive
+
+# Touch Log File
+touch $LOGIT_LOG
+
+#
+# Functions
+#
+
+## Logging Function
+log_it() {
+    cur_date=$(date -u +"%Y-%m-%dT%H:%M:%S")
+    echo "$cur_date	$0 $1" | tee -a "$LOGIT_LOG"
+}
+
+## Exit Script Function
+graceful_exit(){
+    # Should Do Some Internal Error Checking Here
+    log_it "$2"
+    exit $1;
+}
+
+## Error Exit Function
+err_exit(){
+    graceful_exit $1 "ERROR: $2 Exiting script."
+}
+
+## Internal Error Function
+err_internal(){
+    err_exit $ERR_INTERNAL "Internal Error."
+}
+
+## Check OS Distribution
+check_os_distro(){
+
+    if [ -f /etc/os-release ]; then
+        . /etc/os-release
+        OS_DISTRIBUTION=$ID
+        OS_VERSION=$VERSION_ID
+        OS_VERSION_NAME=$VERSION_CODENAME
+    else
+        err_exit $ERR_OS_NODETECT "Can't Determine OS Distribution."
+    fi
+
+    # Fedora detection needs to be tested!
+    if [ "$OS_DISTRIBUTION" = "ol" ] ||
+       [ "$OS_DISTRIBUTION" = "rocky" ] ||
+       [ "$OS_DISTRIBUTION" = "almalinux" ] ||
+       [ "$OS_DISTRIBUTION" = "rhel" ] ||
+       [ "$OS_DISTRIBUTION" = "fedora" ] || 
+       [ "$OS_DISTRIBUTION" = "centos" ]; then
+        OS_DISTRIBUTION_FAMILY="fedora"
+    elif [ "$OS_DISTRIBUTION" = "alpine" ]; then
+        OS_DISTRIBUTION_FAMILY="alpine"
+    elif [ "$OS_DISTRIBUTION" = "ubuntu" ] || 
+         [ "$OS_DISTRIBUTION" = "debian" ]; then
+        OS_DISTRIBUTION_FAMILY="debian"
+    else
+        err_exit $ERR_OS_UNSUPPORTED "OS Unsupported. OS Information: $OS_DISTRIBUTION $OS_VERSION $OS_VERSION_NAME"
+    fi
+
+    log_it "OS Detected: $OS_DISTRIBUTION $OS_VERSION $OS_VERSION_NAME"
+    
+}
+
+# Sets the appropriate package manager for the distro
+set_package_manager(){
+
+    if [ "$OS_DISTRIBUTION_FAMILY" = "fedora" ]; then
+        OS_PACKAGE_MGR="yum $ASSUMEYES"
+        OS_PACKAGE_MGR_INSTALL="install"
+        OS_PACKAGE_MGR_REMOVE="remove"
+        OS_PACKAGE_MGR_UPDATE="update"
+        OS_PACKAGE_MGR_CLEAN="clean all"
+    elif [ "$OS_DISTRIBUTION_FAMILY" = "debian" ]; then
+        OS_PACKAGE_MGR="apt $ASSUMEYES"
+        OS_PACKAGE_MGR_INSTALL="install"
+        OS_PACKAGE_MGR_REMOVE="remove"
+        OS_PACKAGE_MGR_UPDATE="update"
+        OS_PACKAGE_MGR_CLEAN="clean all"
+    elif [ "$OS_DISTRIBUTION_FAMILY" = "alpine" ]; then
+        OS_PACKAGE_MGR="apk"
+        OS_PACKAGE_MGR_INSTALL="add"
+        OS_PACKAGE_MGR_REMOVE="del"
+        OS_PACKAGE_MGR_UPDATE="upgrade"
+        OS_PACKAGE_MGR_CLEAN=""
+    else
+        err_exit $ERR_OS_UNSUPPORTED "OS Unsupported. OS Information: $OS_DISTRIBUTION $OS_VERSION $OS_VERSION_NAME"
+    fi
+
+}
+
+# Check the distribution
+check_os_distro
+
+# Set The Package Manager
+set_package_manager
+
+# Install wget
+eval "$OS_PACKAGE_MGR $OS_PACKAGE_MGR_INSTALL wget"

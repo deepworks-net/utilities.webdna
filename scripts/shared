@@ -5,7 +5,7 @@
 # 
 
 # Defaults
-LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
+
 
 
 
@@ -13,8 +13,8 @@ LOGIT_LOG="${LOGIT_LOG:-./webdna_download.txt}"
 
 # Logging Function
 LOGIT() {
-    local CURRENT_DATE=`date`
-    echo "$CURRENT_DATE	$0 $1" | tee -a "$LOGIT_LOG"
+    
+    
 }
 
 # Checks for supported OS

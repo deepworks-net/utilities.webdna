@@ -1,16 +1,184 @@
 version: "3.9"
 services:
+  base_mount:
+    image: base_mount:latest
+    command: "./webdna/webdna-configure"
+    volumes:
+      - type: bind
+        source: .
+        target: /webdna
+  test-centos:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - centos8
+      - centos7
+  test-alpine:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - alpine312
+      - alpine313
+      - alpine314
+      - alpine315
+      - alpineEdge
+  test-fedora:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - fedora34
+      - fedora35
+      - fedora36
+      - fedora37
+  test-oracle:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - oracle79
+      - oracle85
+  test-redhat:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - redhat79
+      - redhat85
+  test-rockylinux:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - rockylinux85
+  test-almalinux:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - almalinux85
+  test-ubuntu:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - ubuntu14
+      - ubuntu16
+      - ubuntu18
+      - ubuntu20
+      - ubuntu21
+      - ubuntu22
+  test-debian:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+    depends_on:
+      - debian1012
+      - debian113
+      - debianbookworm
+  alpine312:
+    image: alpine:3.12.12
+    extends:
+      service: base_mount
+  alpine313:
+    image: alpine:3.13.10
+    extends:
+      service: base_mount
+  alpine314:
+    image: alpine:3.14.6
+    extends:
+      service: base_mount
+  alpine315:
+    image: alpine:3.15.4
+    extends:
+      service: base_mount
+  alpineEdge:
+    image: alpine:20220328
+    extends:
+      service: base_mount
+  almalinux85:
+    image: almalinux:8.5
+    extends:
+      service: base_mount
   centos7:
     image: centos:7.9.2009
-    command: /usr/sbin/init
-    volumes:
-      - type: bind
-        source: ./scripts
-        target: /tmp/webdna
+    extends:
+      service: base_mount
   centos8:
     image: centos:8.4.2105
-    command: /usr/sbin/init
-    volumes:
-      - type: bind
-        source: ./scripts
-        target: /tmp/webdna
+    extends:
+      service: base_mount
+  fedora34:
+    image: fedora:34
+    extends:
+      service: base_mount
+  fedora35:
+    image: fedora:35
+    extends:
+      service: base_mount
+  fedora36:
+    image: fedora:36
+    extends:
+      service: base_mount
+  fedora37:
+    image: fedora:37
+    extends:
+      service: base_mount
+  oracle79:
+    image: oraclelinux:7.9
+    extends:
+      service: base_mount
+  oracle85:
+    image: oraclelinux:8.5
+    extends:
+      service: base_mount
+  redhat79:
+    image: registry.access.redhat.com/rhel7:7.9
+    extends:
+      service: base_mount
+  redhat85:
+    image: redhat/ubi8:8.5
+    extends:
+      service: base_mount
+  rockylinux85:
+    image: rockylinux:8.5
+    extends:
+      service: base_mount
+  ubuntu14:
+    image: ubuntu:14.04
+    extends:
+      service: base_mount
+  ubuntu16:
+    image: ubuntu:16.04
+    extends:
+      service: base_mount
+  ubuntu18:
+    image: ubuntu:18.04
+    extends:
+      service: base_mount
+  ubuntu20:
+    image: ubuntu:20.04
+    extends:
+      service: base_mount
+  ubuntu21:
+    image: ubuntu:21.10
+    extends:
+      service: base_mount
+  ubuntu22:
+    image: ubuntu:22.04
+    extends:
+      service: base_mount
+  debian1012:
+    image: debian:buster
+    extends:
+      service: base_mount
+  debian113:
+    image: debian:bullseye
+    extends:
+      service: base_mount
+  debianbookworm:
+    image: debian:bookworm
+    extends:
+      service: base_mount
