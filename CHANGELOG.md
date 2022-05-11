@@ -1,5 +1,8 @@
 # WebDNA Configuration Scripts Changelog
 
+## (05/07/2022) v0.0.4-alpha
+- Removed hash files and moved them to a file called 'webdna-hashes' which can be included easily in other shell scripts
+
 ## (04/23/2022) v0.0.3-alpha
 - Updated [Roadmap/Requirements](https://github.com/deepworks-net/webdna-configure-scripts/issues/22)
 - Added webdna-configure script

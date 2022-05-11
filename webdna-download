@@ -1,33 +1,26 @@
 #!/bin/bash
 
-# Get Linux OS Information
-. ./shared
+## Load Shared header
+. webdna-base
 
-LOGIT "Running Script 'webdna-download'"
+## Load WebDNA Hashes
+. webdna-hashes
 
-# Download, verify and unzip a file
-DVU(){
+## Script Defaults
+SCRIPT_VERSION="v0.3.0-alpha"
+DEPENDENCIES="wget unzip"
 
-}
+## Init The Script
+init_script
+
+## Get Script Parameters
+
+
 
 WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
 WEBDNA_FOLDER="${WEBDNA_FOLDER:-WebDNA-folder-8.6}"
 LINUX_WEBDNA="${LINUX_WEBDNA:-WebDNA-Linux-FastCGI-$WEBDNA_VERSION}"
 ALPINE_WEBDNA="${ALPINE_WEBDNA:-WebDNA-Alpine-FastCGI-$WEBDNA_VERSION}"
-
-# Check for OS
-DOWNLOAD_VERSION=$LINUX_WEBDNA
-if [ "$ID" = "centos" ] && ([ "$VERSION_ID" = "7" ] || [ "$VERSION_ID" = "8" ]); then
-    CPS="rpm -q"
-    IPS="yum -y install"
-    UPS="yum -y remove"
-elif [ "$ID" = "alpine" ]; then
-    IPS="apk add"
-    UPS="apk del"
-    DOWNLOAD_VERSION=$ALPINE_WEBDNA
-else
-    OS_UNSUPPORTED "$ID $VERSION_ID"
-fi
 
 # Begin Downloads
 LOGIT "Downloading version $WEBDNA_VERSION of WebDNA!"
