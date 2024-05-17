@@ -152,6 +152,7 @@ services:
       service: base_mount
   ubuntu16:
     image: ubuntu:16.04
+    command: /sbin/init
     extends:
       service: base_mount
   ubuntu18:

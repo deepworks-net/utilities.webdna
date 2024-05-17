@@ -1,41 +1,50 @@
 #!/bin/sh
 
 # Defaults
-SCRIPT_VERSION="v0.4.0-alpha"
+SCRIPT_VERSION="${SCRIPT_VERSION:-v0.4.0-alpha}"
 LOGIT_LOG="${LOGIT_LOG:-webdna_log.txt}"
-WEBDNA_TYPE="${WEBDNA_TYPE:-fcgi}"
+WEBDNA_TYPE="${WEBDNA_TYPE:-FastCGI}"
 WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
-WEBDNA_URL="${WEBDNA_URL:-https://webdna.us/download}"
+INSTALL_DEPENDENCIES="${INSTALL_DEPENDENCIES:-Yes}"
 
 ## OS Vars
-OS_DISTRIBUTION=
-OS_DISTRIBUTION_FAMILY=
-OS_VERSION=
-OS_VERSION_NAME=
-OS_PACKAGE_MGR=
-OS_PACKAGE_MGR_UPDATE_CMD=
-OS_PACKAGE_MGR_UPGRADE_CMD=
-OS_PACKAGE_MGR_INSTALL_CMD=
-OS_PACKAGE_MGR_REMOVE_CMD=
-OS_PACKAGE_MGR_CLEAN_CMD=
-OS_PACKAGE_MGR_CHECK=
+OS_DISTRIBUTION=""
+OS_DISTRIBUTION_FAMILY=""
+OS_VERSION=""
+OS_VERSION_NAME=""
+OS_PACKAGE_MGR=""
+OS_PACKAGE_MGR_UPDATE_CMD=""
+OS_PACKAGE_MGR_UPGRADE_CMD=""
+OS_PACKAGE_MGR_INSTALL_CMD=""
+OS_PACKAGE_MGR_REMOVE_CMD=""
+OS_PACKAGE_MGR_CLEAN_CMD=""
+OS_PACKAGE_MGR_CHECK=""
 
 ## Error Codes
 ERR_INTERNAL=99
 ERR_OS_NODETECT=100
 ERR_OS_UNSUPPORTED=101
 ERR_DEPENDENCY_INSTALL_FAILED=102
-ERR_FILE_VERIFY_FAILED=103
+
+## Get Script Parameters
+while [[ "$#" -gt 0 ]]
+do
+    case $1 in
+        --type)
+        ;;
+        --version)
+            echo "$SCRIPT_VERSION"
+            exit 0
+        ;;
+    esac
+    shift
+done
 
 ## Predefined Values
 export DEBIAN_FRONTEND=noninteractive
 
 ## 'Touch' Log File
-touch $LOGIT_LOG
-
-#
-# Functions
-#
+touch "$LOGIT_LOG"
 
 ## Logging Function
 log_it() {
@@ -47,34 +56,31 @@ log_it() {
 graceful_exit(){
     # Should We Do Some Internal Error Checking Here?
     log_it "$2"
-    exit $1;
+    exit "$1";
 }
 
 ## Error Exit Function
 err_exit(){
-    graceful_exit $1 "ERROR: $2 Exiting script."
+    graceful_exit "$1" "ERROR: $2 Exiting script."
 }
 
 ## Internal Error Function
 err_internal(){
-    err_exit $ERR_INTERNAL "Internal Error."
+    err_exit "$ERR_INTERNAL" "Internal Error."
 }
 
-#
 # OS Init Functions
 # These functions are used to set and detect a distribution automagically
-#
 
 ## Check OS Distribution
 check_os_distro(){
-
     if [ -f /etc/os-release ]; then
         . /etc/os-release
         OS_DISTRIBUTION=$ID
         OS_VERSION=$VERSION_ID
         OS_VERSION_NAME=$VERSION_CODENAME
     else
-        err_exit $ERR_OS_NODETECT "Can't Determine OS Distribution."
+        err_exit "$ERR_OS_NODETECT" "Can't Determine OS Distribution."
     fi
 
     # Fedora detection needs to be tested!
@@ -153,24 +159,17 @@ check_for_package() {
         log_it "Required package '$1' already installed."
     else
         log_it "Required package '$1' not found."
+        if [ "Yes" = "$INSTALL_DEPENDENCIES" ]; then
+            log_it "Installing package '$1'"
+            eval "$OS_PACKAGE_MGR $ASSUMEYES $OS_PACKAGE_MGR_INSTALL_CMD $1"
+            if eval "$OS_PACKAGE_MGR_CHECK $1"; then
+                log_it "Required package '$1' installed."
+            else
+                log_it "Installing Package '$1' Failed."
+            fi
+        fi
     fi
 }
 
-# Download a file from WebDNA
-download_file() {
-    log_it "Downloading $1 from $WEBDNA_URL"
-    # (Will This Work Cross Platform?)
-    wget "$WEBDNA_URL/$1"
-}
 
-# Verify a file from WebDNA (No Tamperin!)
-verify_file() {
-    log_it "Verifying $1"
-    # Is this always installed?
-    sha256sum "$1"
-    if ! sha256sum -c "${$1_SHA256}"; then 
-        log_it "sha256 Checksum failed for $1"; 
-        err_exit $ERR_FILE_VERIFY_FAILED "Could Not Verify File $1"; 
-    fi
-    log_it "Verified $1"
-}
+

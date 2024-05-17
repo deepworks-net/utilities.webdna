@@ -1,74 +1,73 @@
 #!/bin/bash
 
+## Defaults
+SCRIPT_VERSION="v0.3.0-alpha"
+
 ## Load Shared header
 . webdna-base
 
-## Load WebDNA Hashes
-. webdna-hashes
-
 ## Script Defaults
-SCRIPT_VERSION="v0.3.0-alpha"
+WEBDNA_URL="${WEBDNA_URL:-https://webdna.us/download}"
 DEPENDENCIES="wget unzip"
 
-## Init The Script
-init_script
+## Error Codes
+ERR_FILE_VERIFY_FAILED=201
 
-## Get Script Parameters
-
-
-
+WEBDNA_TYPE="${WEBDNA_TYPE:-FastCGI}"
 WEBDNA_VERSION="${WEBDNA_VERSION:-8.6.5}"
 WEBDNA_FOLDER="${WEBDNA_FOLDER:-WebDNA-folder-8.6}"
-LINUX_WEBDNA="${LINUX_WEBDNA:-WebDNA-Linux-FastCGI-$WEBDNA_VERSION}"
-ALPINE_WEBDNA="${ALPINE_WEBDNA:-WebDNA-Alpine-FastCGI-$WEBDNA_VERSION}"
+WEBDNA_OS_FLAVOR="${WEBDNA_OS_FLAVOR:-Linux}"
+if [ "alpine" = "$OS_DISTRIBUTION" ]; then WEBDNA_OS_FLAVOR="Alpine"; fi
+WEBDNA="${LINUX_WEBDNA:-WebDNA-$WEBDNA_OS_FLAVOR-$WEBDNA_TYPE-$WEBDNA_VERSION}.zip"
 
-# Begin Downloads
-LOGIT "Downloading version $WEBDNA_VERSION of WebDNA!"
+#
+# Functions
+#
 
-# Check for installed packages
-LOGIT "Checking for required packages..."
-PACKAGE_CHECK "wget"
-PACKAGE_CHECK "unzip"
+## Download a file from WebDNA
+download_file() {
+    log_it "Downloading $1 from $WEBDNA_URL"
+    # (Will This Work Cross Platform?)
+    wget "$WEBDNA_URL/$1"
+}
 
-# Download WebDNA Folder
-LOGIT "Downloading https://webdna.us/download/$WEBDNA_FOLDER.zip"
-wget "https://webdna.us/download/$WEBDNA_FOLDER.zip"
+## Verify a file from WebDNA (No Tamperin!)
+verify_file() {
+    log_it "Verifying $1"
+    # Is this always installed?
+    sha256sum "$1"
+    if ! sha256sum -c "hashes/${1}.sha256"; then 
+        log_it "sha256 Checksum failed for $1"; 
+        err_exit $ERR_FILE_VERIFY_FAILED "Could Not Verify File $1"; 
+    fi
+    log_it "Verified $1"
+}
 
-# Check against hash
-LOGIT "Verifying $WEBDNA_FOLDER.zip"
-sha256sum "$WEBDNA_FOLDER.zip"
-if ! sha256sum -c "hashes/$WEBDNA_FOLDER.zip.sha256"; then LOGIT "sha256 Checksum failed for $WEBDNA_FOLDER.zip" >&2; exit 3; fi
+## Extract Files
+extract_files() {
+    log_it "Extracting $1"
+    unzip -d . "$1"
+    log_it "Clean Up $1"
+    rm -f "$1"
+}
 
-# Extract Archive
-LOGIT "Extracting $WEBDNA_FOLDER.zip"
-unzip -d . "$WEBDNA_FOLDER.zip"
+## Download Packages and 'Install' Them
 
-# Remove Archive
-LOGIT "Removing $WEBDNA_FOLDER.zip"
-rm -f "$WEBDNA_FOLDER.zip"
+## Check dependencies
+check_dependencies() {
+    check_for_package "wget"
+    check_for_package "unzip"
+}
 
-# Downloaded and verified WebDNA Folder
-LOGIT "Downloaded, verified, and extracted $WEBDNA_FOLDER"
+## Download,Verify, Extract
+dve() {
+    download_file "$1"
+    verify_file "$1"
+    extract_files "$1"
+    log_it "Downloaded, verified, and extracted $1"
+}
 
-# Download WebDNA FCGI
-LOGIT "Downloading https://webdna.us/download/$DOWNLOAD_VERSION.zip"
-wget "https://webdna.us/download/$DOWNLOAD_VERSION.zip"
+check_dependencies
 
-# Check against hash
-LOGIT "Verifying $DOWNLOAD_VERSION.zip"
-sha256sum "$DOWNLOAD_VERSION.zip"
-if ! sha256sum -c "hashes/$DOWNLOAD_VERSION.zip.sha256"; then LOGIT "sha256 Checksum failed for $DOWNLOAD_VERSION.zip" >&2; exit 3; fi
-
-# Extract Archive
-LOGIT "Extracting $DOWNLOAD_VERSION.zip"
-unzip -d . "$DOWNLOAD_VERSION.zip"
-
-# Remove Archive
-LOGIT "Removing $DOWNLOAD_VERSION.zip"
-rm -f "$DOWNLOAD_VERSION.zip"
-
-# Downloaded and verified WebDNA Folder
-LOGIT "Downloaded, verified, and extracted $DOWNLOAD_VERSION"
-
-# Check for version and put together the 'correct' WebDNA Folder Structure
-
+dve "$WEBDNA"
+dve "$WEBDNA_FOLDER"
