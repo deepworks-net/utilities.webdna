@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   base_mount:
     image: base_mount:latest
