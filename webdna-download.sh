@@ -4,7 +4,7 @@
 SCRIPT_VERSION="v0.3.0-alpha"
 
 ## Load Shared header
-. webdna-base
+. webdna-base.sh
 
 ## Script Defaults
 WEBDNA_URL="${WEBDNA_URL:-https://webdna.us/download}"
@@ -59,7 +59,7 @@ check_dependencies() {
     check_for_package "unzip"
 }
 
-## Download,Verify, Extract
+## Download,Verify,Extract
 dve() {
     download_file "$1"
     verify_file "$1"

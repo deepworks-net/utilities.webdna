@@ -1,7 +1,7 @@
 #!/bin/sh
 
 ## Load Shared header
-. webdna-base
+. webdna-base.sh
 
 OS_INSTALL_LIST=
 

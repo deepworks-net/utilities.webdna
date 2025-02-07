@@ -10,7 +10,7 @@
     # Check for Java/Active X? (Check With Stuart)
     
 ## Load Shared header
-. webdna-base
+. webdna-base.sh
 
 ## Script Defaults
 SCRIPT_VERSION="v0.1.0-alpha"
